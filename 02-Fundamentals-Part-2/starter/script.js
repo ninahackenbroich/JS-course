@@ -1,4 +1,4 @@
-'use strict';
+"use strict";
 
 /*
 Coding Challenge #1
@@ -23,21 +23,20 @@ Test data:
 § Data 2: Dolphins score 85, 54 and 41. Koalas score 23, 34 and 27
 */
 
-const calcAverage = (scoreOne, scoreTwo, scoreThree) => (scoreOne + scoreTwo + scoreThree) / 3;
+const calcAverage = (scoreOne, scoreTwo, scoreThree) =>
+  (scoreOne + scoreTwo + scoreThree) / 3;
 let avgDolhins = calcAverage(44, 23, 71);
 let avgKoalas = calcAverage(65, 54, 49);
 
 function checkWinner(avgDolhins, avgKoalas) {
   if (avgDolhins >= 2 * avgKoalas) {
-    console.log(`Dolphins win with ${avgDolhins} vs ${avgKoalas}`)
+    console.log(`Dolphins win with ${avgDolhins} vs ${avgKoalas}`);
+  } else if (avgKoalas >= 2 * avgDolhins) {
+    console.log(`Koalas win with ${avgKoalas} vs ${avgDolhins}`);
+  } else {
+    console.log("It's a no-winner");
   }
-  else if (avgKoalas >= 2 * avgDolhins) {
-    console.log(`Koalas win with ${avgKoalas} vs ${avgDolhins}`)
-  }
-  else {
-    console.log("It's a no-winner")
-  }
-};
+}
 
 checkWinner(avgDolhins, avgKoalas);
 
@@ -70,22 +69,20 @@ array)
 
 function calcTip(billValue) {
   if (billValue > 50 && billValue > 300) {
-    return billValue * 0.15
+    return billValue * 0.15;
   } else {
-    return billValue * 0.2
+    return billValue * 0.2;
   }
 }
 
-const values = new Array(125, 555, 44)
-const tips = [calcTip(values[0]), calcTip(values[1]), calcTip(values[2])]
+const values = new Array(125, 555, 44);
+const tips = [calcTip(values[0]), calcTip(values[1]), calcTip(values[2])];
 
-const total = [values[0] + tips[0], values[1] + tips[1], values[2] + tips[2]]
-
+const total = [values[0] + tips[0], values[1] + tips[1], values[2] + tips[2]];
 
 console.log(values);
 console.log(tips);
 console.log(total);
-
 
 //challenge 3.a
 
@@ -96,20 +93,20 @@ const jonas = {
   friends: ["Nina", "Celine", "Manal"],
   calcAge: function (birthYear) {
     return 2037 - birthYear;
-  }
-}
+  },
+};
 
-const friendsAmount = jonas.friends.length
-const bestFriend = jonas.friends[0]
+const friendsAmount = jonas.friends.length;
+const bestFriend = jonas.friends[0];
 
-console.log(`Jonas has ${friendsAmount} friends and ${bestFriend} is his best friend.`);
+console.log(
+  `Jonas has ${friendsAmount} friends and ${bestFriend} is his best friend.`
+);
 
 console.log(jonas.calcAge(jonas.birthYear));
-console.log(jonas["calcAge"](jonas.birthYear))
+console.log(jonas["calcAge"](jonas.birthYear));
 
-
-console.log(jonas.calcAge(jonas.birthYear))
-
+console.log(jonas.calcAge(jonas.birthYear));
 
 //challenge 3.b
 
@@ -120,13 +117,15 @@ const nina = {
   friends: ["Nina", "Celine", "Manal"],
   calcAge: function () {
     return 2037 - this.birthYear;
-  }
-}
+  },
+};
 
-const friendsAmountNina = nina.friends.length
-const bestFriendNina = nina.friends[0]
+const friendsAmountNina = nina.friends.length;
+const bestFriendNina = nina.friends[0];
 
-console.log(`${nina.firstName} has ${friendsAmountNina} friends and ${bestFriendNina} is her best friend.`);
+console.log(
+  `${nina.firstName} has ${friendsAmountNina} friends and ${bestFriendNina} is her best friend.`
+);
 
 console.log(nina.calcAge());
 
@@ -145,17 +144,16 @@ const celine = {
   },
   getSummary: function () {
     if (this.hasDriversLicense) {
-      return `${this.firstName} is a ${this.age}-year old ${this.job} and has a drivers license.`
+      return `${this.firstName} is a ${this.age}-year old ${this.job} and has a drivers license.`;
     } else {
-      return `${this.firstName} is a ${this.age}-year old ${this.job} and has no drivers license.`
+      return `${this.firstName} is a ${this.age}-year old ${this.job} and has no drivers license.`;
     }
-  }
-}
+  },
+};
 
 console.log(celine.calcAgeCeline());
 console.log(celine.age);
 console.log(celine.getSummary());
-
 
 /*
 Coding Challenge #3
@@ -183,8 +181,8 @@ const mark = {
   calcBMI: function () {
     this.bmi = this.mass / this.height ** 2;
     return this.bmi;
-  }
-}
+  },
+};
 
 const john = {
   firstName: "john",
@@ -194,38 +192,26 @@ const john = {
   calcBMI: function () {
     this.bmi = this.mass / this.height ** 2;
     return this.bmi;
-  }
-}
+  },
+};
 
-mark.calcBMI()
-john.calcBMI()
-mark.bmi > john.bmi ? console.log(`${mark.firstName} hast the highest BMI(${mark.bmi})`) : console.log(`${john.firstName} hast the highest BMI(${john.bmi})`);
-
+mark.calcBMI();
+john.calcBMI();
+mark.bmi > john.bmi
+  ? console.log(`${mark.firstName} hast the highest BMI(${mark.bmi})`)
+  : console.log(`${john.firstName} hast the highest BMI(${john.bmi})`);
 
 // Coding Challenge #4a
 
-const ninaArray = [
-  "nina",
-  "hackenbroich",
-  29,
-  ["13232323", 1, "hi"]
-]
+const ninaArray = ["nina", "hackenbroich", 29, ["13232323", 1, "hi"]];
 
 for (let i = 0; i < ninaArray.length; i++) {
   console.log(ninaArray[i]);
 }
 
-
 // Coding Callenge #4b
 
-
-const celineArray = [
-  "celine",
-  1,
-  "chambre",
-  29,
-  ["celine", "manal", "Ivo"]
-];
+const celineArray = ["celine", 1, "chambre", 29, ["celine", "manal", "Ivo"]];
 
 // break when reached first number
 
@@ -241,7 +227,7 @@ for (let i = 0; i < celineArray.length; i++) {
   console.log(celineArray[i], typeof celineArray[i]);
 }
 
-// starting from the last element 
+// starting from the last element
 
 for (let i = celineArray.length - 1; i >= 0; i--) {
   console.log(i, celineArray[i]);
@@ -252,12 +238,11 @@ for (let i = celineArray.length - 1; i >= 0; i--) {
 let repetiotion = 1;
 
 while (repetiotion <= 10) {
-  console.log('Hi there');
+  console.log("Hi there");
   repetiotion++;
 }
 
 // next
-
 
 let dice = Math.trunc(Math.random() * 6) + 1;
 // console.log(dice);
@@ -265,9 +250,8 @@ let dice = Math.trunc(Math.random() * 6) + 1;
 while (dice !== 6) {
   console.log(`You rolled a ${dice}`);
   dice = Math.trunc(Math.random() * 6) + 1;
-  if (dice === 6) console.log("Loop is ending...")
+  if (dice === 6) console.log("Loop is ending...");
 }
-
 
 /* Coding Challenge #4
 Let's improve Steven's tip calculator even more, this time using loops!
@@ -296,28 +280,25 @@ length of the array (because that's the number of elements)
 
 */
 
-
-const newBills = [22, 295, 176, 440, 37, 105, 10, 1100, 86, 52]
-const newTips = []
-const newTotals = []
-
+const newBills = [22, 295, 176, 440, 37, 105, 10, 1100, 86, 52];
+const newTips = [];
+const newTotals = [];
 
 function calcTip(billValue) {
   if (billValue > 50 && billValue > 300) {
-    return billValue * 0.15
+    return billValue * 0.15;
   } else {
-    return billValue * 0.2
+    return billValue * 0.2;
   }
 }
 
 for (let i = 0; i < newBills.length; i++) {
   newTips.push(calcTip(newBills[i]));
-  newTotals.push((calcTip(newBills[i]) + newBills[i]));
+  newTotals.push(calcTip(newBills[i]) + newBills[i]);
 }
 
 console.log(newTips);
 console.log(newTotals);
-
 
 /*
 4. Bonus: Write a function 'calcAverage' which takes an array called 'arr' as
@@ -335,15 +316,15 @@ length of the array (because that's the number of elements)
 */
 
 function calcAverageTwo(array) {
-  let sum = 0
+  let sum = 0;
   for (let i = 0; i < array.length; i++) {
-    sum += array[i]
+    sum += array[i];
   }
-  const finalAverage = sum / array.length
-  return finalAverage
+  const finalAverage = sum / array.length;
+  return finalAverage;
 }
 
 console.log(calcAverageTwo(newTotals));
 
-
-
+const x = 23;
+if (x === 23) console.log(23);
