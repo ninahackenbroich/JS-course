@@ -387,3 +387,11 @@ for (const [key, value] of gameEvents) {
   const half = key <= 45 ? 'First' : 'Second';
   console.log(`[${half} HALF] ${key}: ${value}`);
 }
+
+/// Replacing in Strings:
+
+const annuncement = 'All passenger come to door 23. come to door 23!';
+
+console.log(annuncement.replace(/door/g, 'gate'));
+
+console.log(annuncement.replaceAll('door', 'gate'));
