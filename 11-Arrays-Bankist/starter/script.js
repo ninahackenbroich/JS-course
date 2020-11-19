@@ -112,6 +112,20 @@ const movementsDescriptions = movements.map((mov, i) => {
   )}`;
 });
 
+const withdrawals = movements.filter(function (mov) {
+  return mov < 0;
+});
+
+const deposits = movements.filter(mov => mov > 0);
+
+const calDisplayBalance = function (movements) {
+  const balance = movements.reduce(function (acc, cur, i, arr) {
+    return acc + cur;
+  }, 0);
+  labelBalance.textContent = `${balance} €`;
+}; // acc = accumulated value after one iteration
+
+calDisplayBalance(account1.movements);
 /////////////////////////////////////////////////
 
 /* Coding Challenge #1
