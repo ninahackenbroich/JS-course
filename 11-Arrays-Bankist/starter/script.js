@@ -29,7 +29,46 @@ const withdrawals = movements.filter(function (mov) {
 
 const deposits = movements.filter(mov => mov > 0);
 
+// Sorting Arrays
+
+const owners = ['nina', 'jonas', 'sara', 'tim'];
+console.log(owners.sort()); //Sort treats everything as strings. that's why you need different methods for sorting numbers.
+
+// return > 0, A,B (keep order)
+// return < 0, A,B (switch order)
+
+// Sort Numbers in ascending order
+
+// movements.sort((a, b) => {
+//   if (a > b) return 1;
+//   if (a < b) return -1;
+// });
+
+movements.sort((a, b) => a - b);
+
+console.log(movements);
+
+// Sort Numbers in descending order
+
+// movements.sort((a, b) => {
+//   if (a > b) return -1;
+//   if (a < b) return 1;
+// });
+
+movements.sort((a, b) => b - a);
+
+console.log(movements);
+
+// create an array with ten random dice rolls
+
+const dicerolls = Array.from({ length: 10 }, () =>
+  Math.floor(Math.random() * 7)
+);
+
+console.log(dicerolls);
+
 /////////////////////////////////////////////////
+
 // BANKIST APP
 
 // Data
@@ -89,9 +128,12 @@ const inputLoanAmount = document.querySelector('.form__input--loan-amount');
 const inputCloseUsername = document.querySelector('.form__input--user');
 const inputClosePin = document.querySelector('.form__input--pin');
 
-const displayMovements = function (movements) {
+const displayMovements = function (movements, sort = false) {
   containerMovements.innerHTML = '';
-  movements.forEach(function (mov, i) {
+
+  const movs = sort ? movements.slice().sort((a, b) => a - b) : movements;
+
+  movs.forEach(function (mov, i) {
     const type = mov > 0 ? 'deposit' : 'withdrawal';
     const html = `<div class="movements__row">
     <div class="movements__type movements__type--${type}"> ${
@@ -236,6 +278,16 @@ btnClose.addEventListener('click', function (e) {
   }
   inputClosePin.value = inputCloseUsername.value = '';
   inputClosePin.blur();
+});
+
+// Sort account movements
+
+let sorted = false;
+
+btnSort.addEventListener('click', function (e) {
+  e.preventDefault();
+  displayMovements(currentAccount.movements, !sorted);
+  sorted = !sorted;
 });
 
 /* Coding Challenge #1
