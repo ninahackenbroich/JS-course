@@ -1,6 +1,34 @@
 'use strict';
 
 /////////////////////////////////////////////////
+
+// Playing around with methods from the lectures
+
+const currencies = new Map([
+  ['USD', 'United States dollar'],
+  ['EUR', 'Euro'],
+  ['GBP', 'Pound sterling'],
+]);
+
+const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
+
+const eurToUSD = 1.1;
+const movmentsUSD = movements.map(function (mov) {
+  return mov * eurToUSD;
+});
+
+const movementsDescriptions = movements.map((mov, i) => {
+  `Movement ${i + 1}: You ${mov > 0 ? 'deposited' : 'withdrew'} ${Math.abs(
+    mov
+  )}`;
+});
+
+const withdrawals = movements.filter(function (mov) {
+  return mov < 0;
+});
+
+const deposits = movements.filter(mov => mov > 0);
+
 /////////////////////////////////////////////////
 // BANKIST APP
 
@@ -89,66 +117,14 @@ const createUsernames = function (accs) {
 
 createUsernames(accounts);
 
-let currentAccount;
-btnLogin.addEventListener('click', function (e) {
-  e.preventDefault(); //prevent form from automatically submitting
-  currentAccount = accounts.find(
-    acc => acc.username === inputLoginUsername.value
-  );
-  if (currentAccount.pin === Number(inputLoginPin.value)) {
-    // DIsplay UI and Message
-    labelWelcome.textContent = `Welcome back, ${
-      currentAccount.owner.split(' ')[0]
-    }`;
-    containerApp.style.opacity = 100;
-    //clear input fields
-    inputLoginUsername.value = inputLoginPin.value = '';
-    inputLoginPin.blur(); // Loses focus of cursor
+//// functions for web app
 
-    // Display Movements
-    displayMovements(currentAccount.movements);
-    //Display balance
-    calDisplayBalance(currentAccount.movements);
-    // display summary
-    calcDisplaySummary(currentAccount);
-  }
-});
-
-// Playing around with methods from the lectures
-
-const currencies = new Map([
-  ['USD', 'United States dollar'],
-  ['EUR', 'Euro'],
-  ['GBP', 'Pound sterling'],
-]);
-
-const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
-
-const eurToUSD = 1.1;
-const movmentsUSD = movements.map(function (mov) {
-  return mov * eurToUSD;
-});
-
-const movementsDescriptions = movements.map((mov, i) => {
-  `Movement ${i + 1}: You ${mov > 0 ? 'deposited' : 'withdrew'} ${Math.abs(
-    mov
-  )}`;
-});
-
-const withdrawals = movements.filter(function (mov) {
-  return mov < 0;
-});
-
-const deposits = movements.filter(mov => mov > 0);
-
-const calDisplayBalance = function (movements) {
-  const balance = movements.reduce(function (acc, cur, i, arr) {
-    return acc + cur;
-  }, 0);
-  labelBalance.textContent = `${balance} €`;
+const calDisplayBalance = function (account) {
+  account.balance = account.movements.reduce((acc, cur) => acc + cur, 0);
+  labelBalance.textContent = `${account.balance} €`;
 }; // acc = accumulated value after one iteration
 
-calDisplayBalance(account1.movements);
+calDisplayBalance(account1);
 
 const calcDisplaySummary = function (account) {
   const incomes = account.movements
@@ -167,9 +143,100 @@ const calcDisplaySummary = function (account) {
   labelSumInterest.textContent = `${Math.abs(interest)} €`;
 };
 
-calcDisplaySummary(account1.movements);
+calcDisplaySummary(account1);
+
+const updateUi = function (acc) {
+  // Display Movements
+  displayMovements(acc.movements);
+  //Display balance
+  calDisplayBalance(acc);
+  // display summary
+  calcDisplaySummary(acc);
+};
+
+updateUi(account1);
+
+let currentAccount;
+btnLogin.addEventListener('click', function (e) {
+  e.preventDefault(); //prevent form from automatically submitting
+  currentAccount = accounts.find(
+    acc => acc.username === inputLoginUsername.value
+  );
+  if (currentAccount.pin === Number(inputLoginPin.value)) {
+    // DIsplay UI and Message
+    labelWelcome.textContent = `Welcome back, ${
+      currentAccount.owner.split(' ')[0]
+    }`;
+    containerApp.style.opacity = 100;
+    //clear input fields
+    inputLoginUsername.value = inputLoginPin.value = '';
+    inputLoginPin.blur(); // Loses focus of cursor
+    updateUi(currentAccount);
+  }
+});
 
 /////////////////////////////////////////////////
+
+// Transfer Money
+
+btnTransfer.addEventListener('click', function (e) {
+  e.preventDefault();
+  const amount = Number(inputTransferAmount.value);
+  const recieverAcc = accounts.find(
+    acc => acc.username === inputTransferTo.value
+  );
+  inputTransferAmount.value = inputTransferTo.value = '';
+  inputTransferAmount.blur();
+  if (
+    amount > 0 &&
+    recieverAcc &&
+    currentAccount.balance >= amount &&
+    recieverAcc?.username !== currentAccount.username
+  ) {
+    currentAccount.movements.push(-amount);
+    recieverAcc.movements.push(amount);
+    updateUi(currentAccount);
+  }
+});
+
+////////////////////////////////
+
+// Asking for a loan
+
+btnLoan.addEventListener('click', function (e) {
+  e.preventDefault();
+  const loanAmount = Number(inputLoanAmount.value);
+  if (
+    loanAmount > 0 &&
+    currentAccount.movements.some(mov => mov >= loanAmount * 0.1)
+  ) {
+    // Add movement
+    currentAccount.movements.push(loanAmount);
+    // Update UI
+    updateUi(currentAccount);
+  }
+  inputLoanAmount.value = '';
+  inputLoanAmount.blur();
+});
+// Close Account
+
+btnClose.addEventListener('click', function (e) {
+  e.preventDefault();
+  if (
+    currentAccount.username === inputCloseUsername.value &&
+    currentAccount.pin === Number(inputClosePin.value)
+  ) {
+    const index = accounts.findIndex(
+      acc => acc.username === currentAccount.username
+    );
+    // Delete Account
+    accounts.splice(index, 1);
+    //Hide UI
+    containerApp.style.opacity = 0;
+  }
+  inputClosePin.value = inputCloseUsername.value = '';
+  inputClosePin.blur();
+});
 
 /* Coding Challenge #1
 Julia and Kate are doing a study on dogs. So each of them asked 5 dog owners
